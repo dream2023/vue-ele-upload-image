@@ -53,14 +53,12 @@
       </div>
     </el-upload>
 
-    <div
-      v-if="crop"
-      v-show="isShowUpload"
-    >
+    <div v-if="crop">
       <div
         @click="isShowCrop = true"
         class="el-upload el-upload--picture-card"
         style="margin-bottom: 20px;"
+        v-show="isShowUpload"
       >
         <i class="el-icon-plus avatar-uploader-icon"></i>
       </div>
@@ -81,6 +79,7 @@
         class="ele-upload-image--cropper"
         img-format="png"
         ref="cropper"
+        v-if="isShowCrop"
         v-model="isShowCrop"
       ></cropper>
     </div>
@@ -201,34 +200,44 @@ export default {
       }
     }
   },
+  watch: {
+    isShowCrop (value) {
+      if (value === false) {
+        this.cropData = {}
+      }
+    }
+  },
   methods: {
     handleSetFileSet(fileName, fileType, fileSize) {
+      const uid = this.cropData.uid ||  new Date().getTime()
       this.cropData = {
         name: fileName,
         percentage: 0,
         size: fileSize,
         type: fileType,
         status: 'ready',
-        uid: new Date().getTime()
+        uid: uid
       }
     },
     handleCropSuccess (b64Data) {
       this.cropData.url = b64Data
     },
     handleCropUploadError (status) {
-      this.cropData.status = 'fail'
       this.$message.error('上传失败, 请重试')
       this.$emit('error', status)
     },
     handleCropUploadSuccess (response, field) {
-
       this.cropData.status = 'success'
       this.cropData.percentage = 100
       this.cropData.response = response
       const file = Object.assign({}, this.cropData )
-      this.fileList.push(file)
+      let index = this.fileList.findIndex((item) => item.uid === file.uid)
+      if (index > -1) {
+        this.fileList.splice(index, 1, file)
+      } else {
+        this.fileList.push(file)
+      }
       this.handleUploadSuccess(response, file, this.fileList)
-      this.cropData.uid = new Date().getTime()
     },
     // 上传前校检格式和大小
     handleBeforeUpload (file) {

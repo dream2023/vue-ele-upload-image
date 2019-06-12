@@ -2,16 +2,9 @@
   <div>
     <ele-upload-image
       :crop="true"
-      :crop-height="50"
-      :crop-width="50"
-      :data="{
-        token: 'Nx6ehv5XlzuIhvP1mvVffM_jZbsyLErLMc4B2Gor:ND8FK5MPuKnttIvYG_4Whx7WMLU=:eyJzY29wZSI6ImxlYWd1ZSIsImRlYWRsaW5lIjoxNTYwMjYxNjk5fQ=='
-      }"
-      :drag="true"
-      :file-type="['jpg', 'png']"
-      :limit="1"
-      :multiple="true"
-      :size="1"
+      :crop-height="200"
+      :crop-width="200"
+      :multiple="false"
       @success="handleSuccess"
       action="https://jsonplaceholder.typicode.com/posts/"
       v-model="images"
