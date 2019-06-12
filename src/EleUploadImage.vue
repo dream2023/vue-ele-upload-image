@@ -282,14 +282,22 @@ export default {
       if (this.multiple) {
         const data = this.successFiles.map((file) => file.response)
         this.$emit('input', data)
-        this.$emit('success', data)
+        this.$emit('change', data)
       } else {
         this.$emit('input', response)
-        this.$emit('success', response)
+        this.$emit('change', response)
       }
     },
     handleRemove(file) {
       this.fileList = this.fileList.filter((item) => item.uid !== file.uid)
+      if (this.multiple) {
+        const data = this.successFiles.map((file) => file.response)
+        this.$emit('input', data)
+        this.$emit('change', data)
+      } else {
+        this.$emit('input', null)
+        this.$emit('change', null)
+      }
     },
     handlePicturePreview(file) {
       this.dialogImageUrl = file.url

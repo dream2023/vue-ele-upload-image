@@ -1,4 +1,4 @@
-# vue-ele-upload-image | 基于 element-ui 的简单且强大的图片上传组件
+# 基于 element-ui 的简单且强大的图片上传组件
 
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg)](https://opensource.org/licenses/mit-license.php)
 [![npm](https://img.shields.io/npm/v/vue-ele-upload-image.svg)](https://www.npmjs.com/package/vue-ele-upload-image)
@@ -85,4 +85,74 @@ export default {
 ## Props 参数
 
 ```js
+props: {
+  // 值
+  value: {
+    type: [String, Array, Object]
+  },
+  // 是否剪裁
+  crop: {
+    type: Boolean,
+    default: false
+  },
+  // 裁剪高度
+  cropHeight: {
+    type: Number
+  },
+  // 裁剪宽度
+  cropWidth: {
+    type: Number
+  },
+  // 大小限制(MB), 默认5MB
+  size: {
+    type: Number,
+    default: 5
+  },
+  // 文件类型, 例如['png', 'jpg', 'jpeg']
+  fileType: {
+    type: Array
+  },
+  // 上传地址 (同官网)
+  action: {
+    type: String,
+    required: true
+  },
+  // 设置上传的请求头部(同官网)
+  headers: Object,
+  // 文件个数显示(同官网)
+  limit: Number,
+  // 是否启用拖拽上传 (同官网)
+  drag: {
+    type: Boolean,
+    default: false
+  },
+  // 	支持发送 cookie 凭证信息 (同官网)
+  withCredentials: {
+    type: Boolean,
+    default: false
+  },
+  // 是否支持多选文件 (同官网)
+  multiple: {
+    type: Boolean,
+    default: false
+  },
+  // 上传时附带的额外参数(同官网)
+  data: Object,
+  // 上传的文件字段名 (同官网)
+  name: {
+    type: String,
+    default: 'file'
+  },
+  // 覆盖默认的上传行为，可以自定义上传的实现 (同官网)
+  httpRequest: Function,
+  // 接受上传的文件类型（thumbnail-mode 模式下此参数无效）(同官网)
+  accept: String
+}
 ```
+
+## 事件
+
+| 事件名 | 说明                              |
+| ------ | --------------------------------- |
+| change | 发生变化时(上传成功 / 图片被删除) |
+| error  | 上传失败                          |
