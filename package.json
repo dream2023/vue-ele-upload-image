@@ -1,11 +1,27 @@
 {
   "name": "vue-ele-upload-image",
+  "description": "通过对 element-ui 的 upload 组件进一步封装, 使得图片上传更加容易",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "license": "MIT",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue build -t lib --name vue-ele-upload-image -d ./dist/ ./src/index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dream2023/vue-ele-upload-image"
+  },
+  "main": "dist/vue-ele-upload-image.umd.min.js",
+  "homepage": "https://github.com/dream2023/vue-ele-upload-image/",
+  "keywords": [
+    "vue-ele-upload-image",
+    "vue",
+    "vue image",
+    "element",
+    "element image",
+    "element-ui image"
+  ],
   "dependencies": {
     "vue-image-crop-upload": "^2.5.0"
   },

@@ -1,0 +1,16 @@
+node_modules
+tests
+docs
+documentation
+public
+vue.config.js
+coverage
+jest.config.js
+.eslintrc.js
+cypress.json
+postcss.config.js
+babel.config.js
+.editorconfig
+.cypress.json
+dist/demo.html
+.browserslistrc
