@@ -20,7 +20,7 @@
       :on-success="handleUploadSuccess"
       :show-file-list="false"
       :style="{
-        marginBottom: multiple && value.length ? '20px' : '0px'
+        marginBottom: multiple && computedValues.length ? '20px' : '0px'
       }"
       :withCredentials="withCredentials"
       ref="upload"
