@@ -8,7 +8,6 @@
       :data="data"
       :disabled="uploading"
       :drag="Boolean(drag)"
-      :file-list="fileList"
       :headers="headers"
       :http-request="httpRequest"
       :limit="limit"
@@ -18,8 +17,6 @@
       :on-change="handleChange"
       :on-error="handleUploadError"
       :on-exceed="handleExceed"
-      :on-preview="handlePicturePreview"
-      :on-remove="handleChange"
       :on-success="handleUploadSuccess"
       :show-file-list="false"
       :withCredentials="withCredentials"
@@ -28,19 +25,21 @@
       v-if="!crop"
       v-show="isShowUpload"
     >
-      <!-- drag显示 -->
-      <template v-if="drag">
-        <i class="el-icon-upload"></i>
-        <div class="el-upload__text">
-          将文件拖到此处，或
-          <em>点击上传</em>
-        </div>
-      </template>
+      <div v-loading="uploading">
+        <!-- drag显示 -->
+        <template v-if="drag">
+          <i class="el-icon-upload"></i>
+          <div class="el-upload__text">
+            将文件拖到此处，或
+            <em>点击上传</em>
+          </div>
+        </template>
 
-      <!-- 非drag -->
-      <template v-else>
-        <i class="el-icon-plus"></i>
-      </template>
+        <!-- 非drag -->
+        <template v-else>
+          <i class="el-icon-plus"></i>
+        </template>
+      </div>
 
       <!-- 公共 -->
       <div
@@ -87,23 +86,9 @@
 
     <!-- 图片列表 -->
     <ele-upload-image-list
-      :files="multiple ? fileList : successFiles"
-      :handle-preview="handlePicturePreview"
+      :images="computedValues"
       @remove="handleRemove"
-      list-type="picture-card"
     />
-
-    <!-- 弹窗 -->
-    <el-dialog
-      :visible.sync="dialogVisible"
-      append-to-body
-    >
-      <img
-        :src="dialogImageUrl"
-        alt
-        width="100%"
-      >
-    </el-dialog>
   </div>
 </template>
 
@@ -116,7 +101,10 @@ export default {
   props: {
     // 值
     value: {
-      type: [String, Array, Object]
+      type: [String, Array],
+      default () {
+        return []
+      }
     },
     // 是否剪裁
     crop: {
@@ -191,15 +179,26 @@ export default {
     }
   },
   computed: {
-    successFiles () {
-      return this.fileList.filter((file) => file.status === 'success')
+    computedValues () {
+      if (this.value) {
+        if (typeof this.value === 'string') {
+          return [this.value]
+        } else {
+          return this.value
+        }
+      } else {
+        return []
+      }
     },
     isShowUpload () {
       if (this.multiple) {
         return true
       } else {
-        return this.successFiles.length === 0
+        return this.computedValues.length === 0
       }
+    },
+    successFiles () {
+      return this.fileList.filter((file) => file.status === 'success')
     }
   },
   watch: {
@@ -276,32 +275,23 @@ export default {
       this.$emit('error', err)
     },
     // 上传成功回调
-    handleUploadSuccess (response) {
+    handleUploadSuccess (response, file) {
       this.uploading = false
       this.$message.success('上传成功')
       if (this.multiple) {
-        const data = this.successFiles.map((file) => file.response)
-        this.$emit('input', data)
-        this.$emit('change', data)
+        this.$emit('change', response, file, this.successFiles)
       } else {
-        this.$emit('input', response)
-        this.$emit('change', response)
+        this.$emit('change', response, file)
       }
     },
-    handleRemove(file) {
-      this.fileList = this.fileList.filter((item) => item.uid !== file.uid)
+    handleRemove(index) {
       if (this.multiple) {
-        const data = this.successFiles.map((file) => file.response)
-        this.$emit('input', data)
-        this.$emit('change', data)
+        const data = [...this.computedValues]
+        data.splice(index, 1)
+        this.$emit('input', data || [])
       } else {
         this.$emit('input', null)
-        this.$emit('change', null)
       }
-    },
-    handlePicturePreview(file) {
-      this.dialogImageUrl = file.url
-      this.dialogVisible = true
     }
   },
   mounted () {
@@ -314,16 +304,26 @@ export default {
 </script>
 
 <style>
+.ele-upload-image .el-loading-spinner {
+  line-height: 1;
+}
 .ele-upload-image .el-upload-list__item-thumbnail {
   object-fit: cover;
 }
-.ele-upload-image--cropper.vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step1
-  .vicp-drop-area {
-  background-color: #fbfdff;
-}
 .vue-image-crop-upload.ele-upload-image--cropper {
   z-index: 99;
+}
+.ele-upload-image--cropper .vicp-drop-area {
+  background-color: #fbfdff !important;
+}
+
+.ele-upload-image--cropper .vicp-icon1-arrow {
+  border-bottom-color: #909399 !important;
+}
+.ele-upload-image--cropper .vicp-icon1-body {
+  background-color: #909399 !important;
+}
+.ele-upload-image--cropper .vicp-icon1-bottom {
+  border-color: #909399 !important;
 }
 </style>
