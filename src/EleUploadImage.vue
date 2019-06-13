@@ -37,7 +37,9 @@
 
         <!-- 非drag -->
         <template v-else>
-          <i class="el-icon-plus"></i>
+          <div :style="{ width: size + 'px', height: size + 'px', lineHeight: size + 'px' }">
+            <i class="el-icon-plus"></i>
+          </div>
         </template>
       </div>
 
@@ -45,16 +47,18 @@
       <div
         class="el-upload__tip"
         slot="tip"
+        v-if="isShowTip"
       >
         只能上传
         <b style="color: #F56C6C">{{fileType ? fileType.join('/') : '图片'}}</b>
         格式文件，且大小不超过
-        <b style="color: #F56C6C">{{size}}Mb</b>
+        <b style="color: #F56C6C">{{fileSize}}Mb</b>
       </div>
     </el-upload>
 
     <div v-if="crop">
       <div
+        :style="{ width: size + 'px', height: size + 'px', lineHeight: size + 'px' }"
         @click="isShowCrop = true"
         class="el-upload el-upload--picture-card"
         style="margin-bottom: 20px;"
@@ -87,6 +91,7 @@
     <!-- 图片列表 -->
     <ele-upload-image-list
       :images="computedValues"
+      :size="size"
       @remove="handleRemove"
     />
   </div>
@@ -111,6 +116,11 @@ export default {
       type: Boolean,
       default: false
     },
+    // 图片显示大小
+    size: {
+      type: Number,
+      default: 150
+    },
     // 裁剪高度
     cropHeight: {
       type: Number
@@ -120,13 +130,18 @@ export default {
       type: Number
     },
     // 大小限制(MB), 默认5MB
-    size: {
+    fileSize: {
       type: Number,
       default: 5
     },
     // 文件类型, 例如['png', 'jpg', 'jpeg']
     fileType: {
       type: Array
+    },
+    // 是否显示提示
+    isShowTip: {
+      type: Boolean,
+      default: true
     },
     // 上传地址 (同官网)
     action: {
@@ -248,14 +263,14 @@ export default {
       } else {
         isImg = file.type.indexOf('image') > -1
       }
-      const isLt = file.size / 1024 / 1024 < this.size
+      const isLt = file.size / 1024 / 1024 < this.fileSize
 
       if (!isImg) {
         this.$message.error(`文件格式不正确, 请上传${this.fileType.join('/')}图片格式文件!`)
       }
 
       if (!isLt) {
-        this.$message.error(`上传头像图片大小不能超过 ${this.size} MB!`)
+        this.$message.error(`上传头像图片大小不能超过 ${this.fileSize} MB!`)
       }
       this.uploading = true
       return isImg && isLt
@@ -304,8 +319,16 @@ export default {
 </script>
 
 <style>
+.ele-upload-image {
+  line-height: 1;
+}
 .ele-upload-image .el-loading-spinner {
   line-height: 1;
+}
+.ele-upload-image .el-upload--picture-card {
+  width: auto;
+  height: auto;
+  line-height: inherit;
 }
 .ele-upload-image .el-upload-list__item-thumbnail {
   object-fit: cover;

@@ -3,6 +3,10 @@
     <div class="el-upload-list el-upload-list--picture-card">
       <li
         :key="index"
+        :style="{
+          width: size + 'px',
+          height: size + 'px'
+        }"
         @keydown.delete="$emit('remove', index)"
         class="el-upload-list__item is-success"
         tabindex="0"
@@ -49,16 +53,19 @@ export default {
     return {
       dialogImageUrl: '',
       dialogVisible: false
-    };
+    }
   },
   props: {
+    size: {
+      type: Number,
+      default: 150
+    },
     images: {
       type: Array,
       default() {
-        return [];
+        return []
       }
-    },
-    handlePreview: Function
+    }
   },
   methods: {
     handleImagePreview(image) {

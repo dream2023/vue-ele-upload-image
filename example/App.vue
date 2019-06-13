@@ -2,6 +2,8 @@
   <div style="margin-left: 50px; margin-top: 50px">
     <h1>单张图片</h1>
     <ele-upload-image
+      :isShowTip="false"
+      :size="100"
       @success="handleSinge1Success"
       action="https://jsonplaceholder.typicode.com/posts/"
       v-model="image1"
@@ -22,6 +24,7 @@
     ></ele-upload-image>
     <h1>裁剪</h1>
     <ele-upload-image
+      :size="100"
       @success="handleSinge3Success"
       action="https://jsonplaceholder.typicode.com/posts/"
       crop

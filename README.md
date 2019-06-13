@@ -142,10 +142,20 @@ props: {
   cropWidth: {
     type: Number
   },
-  // 大小限制(MB), 默认5MB
+  // 图片显示大小
   size: {
     type: Number,
+    default: 150
+  },
+  // 大小限制(MB), 默认5MB
+  fileSize: {
+    type: Number,
     default: 5
+  },
+  // 是否显示提示
+  isShowTip: {
+    type: Boolean,
+    default: true
   },
   // 文件类型, 例如['png', 'jpg', 'jpeg']
   fileType: {
