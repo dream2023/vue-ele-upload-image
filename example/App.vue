@@ -2,27 +2,27 @@
   <div style="margin-left: 50px; margin-top: 50px">
     <h1>单张图片</h1>
     <ele-upload-image
-      @change="handleSinge1Change"
+      @success="handleSinge1Success"
       action="https://jsonplaceholder.typicode.com/posts/"
       v-model="image1"
     ></ele-upload-image>
     <h1>多张图片</h1>
     <ele-upload-image
-      @change="handleMultiChange"
+      @success="handleMultiSuccess"
       action="https://jsonplaceholder.typicode.com/posts/"
       multiple
       v-model="images"
     ></ele-upload-image>
     <h1>拖拽</h1>
     <ele-upload-image
-      @change="handleSinge2Change"
+      @success="handleSinge2Success"
       action="https://jsonplaceholder.typicode.com/posts/"
       drag
       v-model="image2"
     ></ele-upload-image>
     <h1>裁剪</h1>
     <ele-upload-image
-      @change="handleSinge3Change"
+      @success="handleSinge3Success"
       action="https://jsonplaceholder.typicode.com/posts/"
       crop
       v-model="image3"
@@ -42,16 +42,16 @@ export default {
     }
   },
   methods: {
-    handleMultiChange (response, file, fileList) {
+    handleMultiSuccess (response, file, fileList) {
       this.images.push(file.url)
     },
-    handleSinge1Change (response, file) {
+    handleSinge1Success (response, file) {
       this.image1 = file.url
     },
-    handleSinge2Change (response, file) {
+    handleSinge2Success (response, file) {
       this.image2 = file.url
     },
-    handleSinge3Change (response, file) {
+    handleSinge3Success (response, file) {
       this.image3 = file.url
     }
   },

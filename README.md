@@ -49,27 +49,65 @@ export default {
 
 ```html
 <!-- 默认(单张, 点击上传) -->
-<ele-upload-image
-  action="https://jsonplaceholder.typicode.com/posts/"
-  v-model="images"
-></ele-upload-image>
+<template>
+  <ele-upload-image
+    action="https://jsonplaceholder.typicode.com/posts/"
+    v-model="image"
+    @success="handleSuccess"
+  ></ele-upload-image>
+</template>
+<script>
+  export default {
+    data() {
+      return {
+        image: ''
+      }
+    },
+    methods: {
+      handleSuccess(response, file) {
+        // 根据响应结果, 设置 URL
+        this.image = 'https://xxx.xxx.com/image/' + response.id
+      }
+    }
+  }
+</script>
 ```
 
 ```html
-<!-- 多张(multiple) -->
-<ele-upload-image
-  multiple
-  action="https://jsonplaceholder.typicode.com/posts/"
-  v-model="images"
-></ele-upload-image>
+<template>
+  <!-- 多张(multiple) -->
+  <ele-upload-image
+    multiple
+    @success="handleSuccess"
+    action="https://jsonplaceholder.typicode.com/posts/"
+    v-model="images"
+  ></ele-upload-image>
+</template>
+
+<script>
+  export default {
+    data() {
+      return {
+        images: ''
+      }
+    },
+    methods: {
+      handleSuccess(response, file, fileList) {
+        // 根据响应结果, 设置 URL
+        this.images.push('https://xxx.xxx.com/image/' + response.id)
+      }
+    }
+  }
+</script>
 ```
 
 ```html
 <!-- 拖拽上传(drag) -->
 <ele-upload-image
   drag
+  @success="handleSuccess"
   action="https://jsonplaceholder.typicode.com/posts/"
-  v-model="images"
+  v-model="image"
 ></ele-upload-image>
 ```
 
@@ -77,8 +115,9 @@ export default {
 <!-- 拖拽上传(crop) -->
 <ele-upload-image
   crop
+  @success="handleSuccess"
   action="https://jsonplaceholder.typicode.com/posts/"
-  v-model="images"
+  v-model="image"
 ></ele-upload-image>
 ```
 
@@ -152,7 +191,7 @@ props: {
 
 ## 事件
 
-| 事件名 | 说明                              |
-| ------ | --------------------------------- |
-| change | 发生变化时(上传成功 / 图片被删除) |
-| error  | 上传失败                          |
+| 事件名  | 说明       |
+| ------- | ---------- |
+| success | 上传成功时 |
+| error   | 上传失败   |

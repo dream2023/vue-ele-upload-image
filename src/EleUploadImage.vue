@@ -279,9 +279,9 @@ export default {
       this.uploading = false
       this.$message.success('上传成功')
       if (this.multiple) {
-        this.$emit('change', response, file, this.successFiles)
+        this.$emit('success', response, file, this.successFiles)
       } else {
-        this.$emit('change', response, file)
+        this.$emit('success', response, file)
       }
     },
     handleRemove(index) {
