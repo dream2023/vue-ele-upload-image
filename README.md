@@ -161,6 +161,12 @@ props: {
   fileType: {
     type: Array
   },
+  // 缩略图后缀, 例如七牛云缩略图样式 (?imageView2/1/w/20/h/20)
+  // 如果存在, 则列表显示是加缩略图后缀的, 弹窗不带缩略图后缀
+  thumbSuffix: {
+    type: String,
+    default: ''
+  },
   // 上传地址 (同官网)
   action: {
     type: String,

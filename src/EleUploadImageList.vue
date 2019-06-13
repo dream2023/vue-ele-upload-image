@@ -13,7 +13,7 @@
         v-for="(image, index) in images"
       >
         <img
-          :src="image"
+          :src="image + thumbSuffix"
           class="el-upload-list__item-thumbnail"
         >
         <span class="el-upload-list__item-actions">
@@ -35,8 +35,10 @@
 
     <!-- 弹窗 -->
     <el-dialog
+      :title="dialogTitle"
       :visible.sync="dialogVisible"
       append-to-body
+      center
     >
       <img
         :src="dialogImageUrl"
@@ -49,22 +51,27 @@
 <script>
 export default {
   name: 'EleUploadImageList',
-  data() {
-    return {
-      dialogImageUrl: '',
-      dialogVisible: false
-    }
-  },
   props: {
+    dialogTitle: String,
     size: {
       type: Number,
       default: 150
+    },
+    thumbSuffix: {
+      type: String,
+      default: ''
     },
     images: {
       type: Array,
       default() {
         return []
       }
+    }
+  },
+  data() {
+    return {
+      dialogImageUrl: '',
+      dialogVisible: false
     }
   },
   methods: {

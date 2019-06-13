@@ -19,9 +19,11 @@
       :on-exceed="handleExceed"
       :on-success="handleUploadSuccess"
       :show-file-list="false"
+      :style="{
+        marginBottom: multiple && value.length ? '20px' : '0px'
+      }"
       :withCredentials="withCredentials"
       ref="upload"
-      style="margin-bottom: 20px;"
       v-if="!crop"
       v-show="isShowUpload"
     >
@@ -90,8 +92,10 @@
 
     <!-- 图片列表 -->
     <ele-upload-image-list
+      :dialogTitle="dialogTitle"
       :images="computedValues"
       :size="size"
+      :thumbSuffix="thumbSuffix"
       @remove="handleRemove"
     />
   </div>
@@ -138,11 +142,18 @@ export default {
     fileType: {
       type: Array
     },
+    // 缩略图后缀, 例如七牛云缩略图样式 (?imageView2/1/w/20/h/20)
+    thumbSuffix: {
+      type: String,
+      default: ''
+    },
     // 是否显示提示
     isShowTip: {
       type: Boolean,
       default: true
     },
+    // 弹窗标题
+    dialogTitle: String,
     // 上传地址 (同官网)
     action: {
       type: String,
@@ -188,9 +199,7 @@ export default {
       cropData: {},
       isShowCrop: false,
       uploading: false,
-      fileList: [],
-      dialogImageUrl: '',
-      dialogVisible: false
+      fileList: []
     }
   },
   computed: {
@@ -199,7 +208,7 @@ export default {
         if (typeof this.value === 'string') {
           return [this.value]
         } else {
-          return this.value
+          return [...this.value]
         }
       } else {
         return []
@@ -333,13 +342,14 @@ export default {
 .ele-upload-image .el-upload-list__item-thumbnail {
   object-fit: cover;
 }
+
+/* 裁剪 */
 .vue-image-crop-upload.ele-upload-image--cropper {
   z-index: 99;
 }
 .ele-upload-image--cropper .vicp-drop-area {
   background-color: #fbfdff !important;
 }
-
 .ele-upload-image--cropper .vicp-icon1-arrow {
   border-bottom-color: #909399 !important;
 }

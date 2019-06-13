@@ -6,6 +6,7 @@
       :size="100"
       @success="handleSinge1Success"
       action="https://jsonplaceholder.typicode.com/posts/"
+      dialogTitle="单张图片"
       v-model="image1"
     ></ele-upload-image>
     <h1>多张图片</h1>
