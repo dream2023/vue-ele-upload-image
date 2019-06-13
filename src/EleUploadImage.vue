@@ -343,6 +343,7 @@ export default {
 .ele-upload-image .el-upload--picture-card {
   width: auto;
   height: auto;
+  background: none;
   line-height: inherit;
 }
 
