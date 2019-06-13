@@ -12,10 +12,12 @@
         tabindex="0"
         v-for="(image, index) in images"
       >
-        <img
+        <el-image
+          :lazy="lazy"
           :src="image + thumbSuffix"
           class="el-upload-list__item-thumbnail"
-        >
+          fit="cover"
+        />
         <span class="el-upload-list__item-actions">
           <span
             @click="handleImagePreview(image)"
@@ -35,7 +37,7 @@
 
     <!-- 弹窗 -->
     <el-dialog
-      :title="dialogTitle"
+      :title="title"
       :visible.sync="dialogVisible"
       append-to-body
       center
@@ -52,10 +54,14 @@
 export default {
   name: 'EleUploadImageList',
   props: {
-    dialogTitle: String,
+    title: String,
     size: {
       type: Number,
       default: 150
+    },
+    lazy: {
+      type: Boolean,
+      default: false
     },
     thumbSuffix: {
       type: String,

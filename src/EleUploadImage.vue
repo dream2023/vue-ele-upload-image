@@ -92,10 +92,11 @@
 
     <!-- 图片列表 -->
     <ele-upload-image-list
-      :dialogTitle="dialogTitle"
       :images="computedValues"
+      :lazy="lazy"
       :size="size"
       :thumbSuffix="thumbSuffix"
+      :title="title"
       @remove="handleRemove"
     />
   </div>
@@ -153,7 +154,12 @@ export default {
       default: true
     },
     // 弹窗标题
-    dialogTitle: String,
+    title: String,
+    // 图片懒加载
+    lazy: {
+      type: Boolean,
+      default: false
+    },
     // 上传地址 (同官网)
     action: {
       type: String,
@@ -338,9 +344,6 @@ export default {
   width: auto;
   height: auto;
   line-height: inherit;
-}
-.ele-upload-image .el-upload-list__item-thumbnail {
-  object-fit: cover;
 }
 
 /* 裁剪 */

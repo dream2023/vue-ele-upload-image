@@ -3,6 +3,7 @@
     <h1>单张图片</h1>
     <ele-upload-image
       :isShowTip="false"
+      :lazy="true"
       :size="100"
       @success="handleSinge1Success"
       action="https://jsonplaceholder.typicode.com/posts/"

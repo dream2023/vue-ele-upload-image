@@ -157,6 +157,13 @@ props: {
     type: Boolean,
     default: true
   },
+  // 弹窗标题
+  title: String,
+  // 图片懒加载
+  lazy: {
+    type: Boolean,
+    default: false
+  },
   // 文件类型, 例如['png', 'jpg', 'jpeg']
   fileType: {
     type: Array
