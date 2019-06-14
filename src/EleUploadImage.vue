@@ -91,20 +91,21 @@
     </div>
 
     <!-- 图片列表 -->
-    <ele-upload-image-list
-      :images="computedValues"
+    <ele-gallery
       :lazy="lazy"
+      :remove-fn="handleRemove"
       :size="size"
+      :sliceSingle="true"
+      :source="value"
       :thumbSuffix="thumbSuffix"
       :title="title"
-      @remove="handleRemove"
     />
   </div>
 </template>
 
 <script>
-import EleUploadImageList from './EleUploadImageList'
 import Cropper from 'vue-image-crop-upload'
+import EleGallery from 'vue-ele-gallery/src/index'
 
 export default {
   name: 'EleUploadImage',
@@ -198,7 +199,7 @@ export default {
   },
   components: {
     Cropper,
-    EleUploadImageList
+    EleGallery
   },
   data () {
     return {

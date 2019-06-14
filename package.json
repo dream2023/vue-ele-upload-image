@@ -23,6 +23,7 @@
     "element-ui image"
   ],
   "dependencies": {
+    "vue-ele-gallery": "^2.1.0",
     "vue-image-crop-upload": "^2.5.0"
   },
   "devDependencies": {
