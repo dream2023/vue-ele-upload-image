@@ -340,6 +340,9 @@ export default {
 .ele-upload-image .el-loading-spinner {
   line-height: 1;
 }
+.ele-upload-image .el-icon-plus {
+  vertical-align: middle;
+}
 .ele-upload-image .el-upload--picture-card {
   width: auto;
   height: auto;
