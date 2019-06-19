@@ -316,7 +316,11 @@ export default {
         url = this.responseFn(response, file, this.successFiles)
       }
       if (this.multiple) {
-        this.$emit('input', [...this.value, url])
+        if (Array.isArray(this.value)) {
+          this.$emit('input', [...this.value, url])
+        } else {
+          this.$emit('input', [url])
+        }
       } else {
         this.$emit('input', url)
       }
