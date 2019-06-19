@@ -140,6 +140,8 @@ export default {
       type: Number,
       default: 5
     },
+    // 响应处理函数
+    responseFn: Function,
     // 文件类型, 例如['png', 'jpg', 'jpeg']
     fileType: {
       type: Array
@@ -307,12 +309,16 @@ export default {
     },
     // 上传成功回调
     handleUploadSuccess (response, file) {
+      let url = response
       this.uploading = false
       this.$message.success('上传成功')
+      if (this.responseFn) {
+        url = this.responseFn(response, file, this.successFiles)
+      }
       if (this.multiple) {
-        this.$emit('success', response, file, this.successFiles)
+        this.$emit('input', [...this.value, url])
       } else {
-        this.$emit('success', response, file)
+        this.$emit('input', url)
       }
     },
     handleRemove(index) {

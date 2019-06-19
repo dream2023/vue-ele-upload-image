@@ -4,30 +4,30 @@
     <ele-upload-image
       :isShowTip="false"
       :lazy="true"
+      :responseFn="handleResponse"
       :size="100"
-      @success="handleSinge1Success"
       action="https://jsonplaceholder.typicode.com/posts/"
       title="单张图片"
       v-model="image1"
     ></ele-upload-image>
     <h1>多张图片</h1>
     <ele-upload-image
-      @success="handleMultiSuccess"
+      :responseFn="handleResponse"
       action="https://jsonplaceholder.typicode.com/posts/"
       multiple
       v-model="images"
     ></ele-upload-image>
     <h1>拖拽</h1>
     <ele-upload-image
-      @success="handleSinge2Success"
+      :responseFn="handleResponse"
       action="https://jsonplaceholder.typicode.com/posts/"
       drag
       v-model="image2"
     ></ele-upload-image>
     <h1>裁剪</h1>
     <ele-upload-image
+      :responseFn="handleResponse"
       :size="100"
-      @success="handleSinge3Success"
       action="https://jsonplaceholder.typicode.com/posts/"
       crop
       v-model="image3"
@@ -47,17 +47,8 @@ export default {
     }
   },
   methods: {
-    handleMultiSuccess (response, file, fileList) {
-      this.images.push(file.url)
-    },
-    handleSinge1Success (response, file) {
-      this.image1 = file.url
-    },
-    handleSinge2Success (response, file) {
-      this.image2 = file.url
-    },
-    handleSinge3Success (response, file) {
-      this.image3 = file.url
+    handleResponse (response, file, fileList) {
+      return file.url
     }
   },
   mounted () {}

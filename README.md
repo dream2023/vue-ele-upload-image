@@ -53,7 +53,7 @@ export default {
   <ele-upload-image
     action="https://jsonplaceholder.typicode.com/posts/"
     v-model="image"
-    @success="handleSuccess"
+    :responseFn="handleResponse"
   ></ele-upload-image>
 </template>
 <script>
@@ -64,9 +64,9 @@ export default {
       }
     },
     methods: {
-      handleSuccess(response, file) {
+      handleResponse(response, file, fileList) {
         // 根据响应结果, 设置 URL
-        this.image = 'https://xxx.xxx.com/image/' + response.id
+        return 'https://xxx.xxx.com/image/' + response.id
       }
     }
   }
@@ -78,7 +78,7 @@ export default {
   <!-- 多张(multiple) -->
   <ele-upload-image
     multiple
-    @success="handleSuccess"
+    :responseFn="handleResponse"
     action="https://jsonplaceholder.typicode.com/posts/"
     v-model="images"
   ></ele-upload-image>
@@ -92,9 +92,9 @@ export default {
       }
     },
     methods: {
-      handleSuccess(response, file, fileList) {
+      handleResponse(response, file, fileList) {
         // 根据响应结果, 设置 URL
-        this.images.push('https://xxx.xxx.com/image/' + response.id)
+        return 'https://xxx.xxx.com/image/' + response.id
       }
     }
   }
@@ -105,7 +105,7 @@ export default {
 <!-- 拖拽上传(drag) -->
 <ele-upload-image
   drag
-  @success="handleSuccess"
+  :responseFn="handleResponse"
   action="https://jsonplaceholder.typicode.com/posts/"
   v-model="image"
 ></ele-upload-image>
@@ -115,7 +115,7 @@ export default {
 <!-- 拖拽上传(crop) -->
 <ele-upload-image
   crop
-  @success="handleSuccess"
+  :responseFn="handleResponse"
   action="https://jsonplaceholder.typicode.com/posts/"
   v-model="image"
 ></ele-upload-image>
@@ -214,7 +214,6 @@ props: {
 
 ## 事件
 
-| 事件名  | 说明       |
-| ------- | ---------- |
-| success | 上传成功时 |
-| error   | 上传失败   |
+| 事件名 | 说明     |
+| ------ | -------- |
+| error  | 上传失败 |
