@@ -129,6 +129,8 @@ props: {
   value: {
     type: [String, Array, Object]
   },
+  // 响应处理函数
+  responseFn: Function,
   // 是否剪裁
   crop: {
     type: Boolean,
