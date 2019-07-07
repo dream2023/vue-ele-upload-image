@@ -51,10 +51,13 @@
         slot="tip"
         v-if="isShowTip"
       >
-        只能上传
+        请上传
         <b style="color: #F56C6C">{{fileType ? fileType.join('/') : '图片'}}</b>
-        格式文件，且大小不超过
-        <b style="color: #F56C6C">{{fileSize}}Mb</b>
+        格式文件
+        <template v-if="fileSize">
+          ，且大小不超过
+          <b style="color: #F56C6C">{{fileSize}}MB</b>
+        </template>
       </div>
     </el-upload>
 
@@ -135,10 +138,9 @@ export default {
     cropWidth: {
       type: Number
     },
-    // 大小限制(MB), 默认5MB
+    // 大小限制(MB)
     fileSize: {
-      type: Number,
-      default: 5
+      type: Number
     },
     // 响应处理函数
     responseFn: Function,
@@ -281,17 +283,22 @@ export default {
       } else {
         isImg = file.type.indexOf('image') > -1
       }
-      const isLt = file.size / 1024 / 1024 < this.fileSize
 
       if (!isImg) {
         this.$message.error(`文件格式不正确, 请上传${this.fileType.join('/')}图片格式文件!`)
+        return false
       }
 
-      if (!isLt) {
-        this.$message.error(`上传头像图片大小不能超过 ${this.fileSize} MB!`)
+      if (this.fileSize) {
+        const isLt = file.size / 1024 / 1024 < this.fileSize
+        if (!isLt) {
+          this.$message.error(`上传头像图片大小不能超过 ${this.fileSize} MB!`)
+        }
+        return false
       }
+
       this.uploading = true
-      return isImg && isLt
+      return true
     },
     handleChange (file, fileList) {
       this.uploading = false

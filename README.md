@@ -149,10 +149,9 @@ props: {
     type: Number,
     default: 150
   },
-  // 大小限制(MB), 默认5MB
+  // 大小限制(MB)
   fileSize: {
-    type: Number,
-    default: 5
+    type: Number
   },
   // 是否显示提示
   isShowTip: {
