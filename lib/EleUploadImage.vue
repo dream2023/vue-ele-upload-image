@@ -49,7 +49,7 @@
       <div
         class="el-upload__tip"
         slot="tip"
-        v-if="isShowTip"
+        v-if="showTip"
       >
         请上传
         <b style="color: #F56C6C">{{fileType ? fileType.join('/') : '图片'}}</b>
@@ -214,6 +214,10 @@ export default {
     }
   },
   computed: {
+    // 是否显示提示
+    showTip() {
+      return this.isShowTip && (this.fileType || this.fileSize)
+    },
     computedValues () {
       if (this.value) {
         if (typeof this.value === 'string') {

@@ -5,13 +5,13 @@
       :isShowTip="false"
       :lazy="true"
       :responseFn="handleResponse"
-      :size="100"
       action="https://jsonplaceholder.typicode.com/posts/"
       title="单张图片"
       v-model="image1"
     ></ele-upload-image>
     <h1>多张图片</h1>
     <ele-upload-image
+      :fileSize="5"
       :responseFn="handleResponse"
       action="https://jsonplaceholder.typicode.com/posts/"
       multiple
