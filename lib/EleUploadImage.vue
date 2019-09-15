@@ -283,8 +283,16 @@ export default {
     handleBeforeUpload (file) {
       let isImg = false
       if (this.fileType) {
-        isImg = this.fileType.some((type) => file.type.indexOf(type) > -1)
-      } else {
+        let fileExtension = ''
+        if (file.name.lastIndexOf('.') > -1) {
+          fileExtension = file.name.slice(file.name.lastIndexOf('.') + 1)
+        }
+        isImg = this.fileType.some((type) => {
+          if (file.type.indexOf(type) > -1) return true
+          if (fileExtension && fileExtension.indexOf(type) > -1) return true
+          return false
+        })
+      }  else {
         isImg = file.type.indexOf('image') > -1
       }
 
@@ -297,8 +305,8 @@ export default {
         const isLt = file.size / 1024 / 1024 < this.fileSize
         if (!isLt) {
           this.$message.error(`上传头像图片大小不能超过 ${this.fileSize} MB!`)
+          return false
         }
-        return false
       }
 
       this.uploading = true
