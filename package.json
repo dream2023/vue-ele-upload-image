@@ -1,7 +1,7 @@
 {
   "name": "vue-ele-upload-image",
   "description": "通过对 element-ui 的 upload 组件进一步封装, 使得图片上传更加容易",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "private": false,
   "license": "MIT",
   "scripts": {
@@ -23,15 +23,15 @@
     "element-ui image"
   ],
   "dependencies": {
-    "vue-ele-gallery": "^2.1.3",
+    "vue-ele-gallery": "^2.1.5",
     "vue-image-crop-upload": "^2.5.0"
   },
   "devDependencies": {
-    "core-js": "^2.6.5",
-    "vue": "^2.6.10",
     "@vue/cli-plugin-babel": "^3.8.0",
     "@vue/cli-service": "^3.8.0",
+    "core-js": "^2.6.5",
     "element-ui": "^2.9.1",
+    "vue": "^2.6.10",
     "vue-template-compiler": "^2.6.10"
   },
   "postcss": {

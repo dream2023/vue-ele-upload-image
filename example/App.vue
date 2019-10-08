@@ -2,6 +2,7 @@
   <div style="margin-left: 50px; margin-top: 50px">
     <h1>单张图片</h1>
     <ele-upload-image
+      :fileSize="0.1"
       :isShowTip="false"
       :lazy="true"
       :responseFn="handleResponse"
@@ -51,6 +52,6 @@ export default {
       return file.url
     }
   },
-  mounted () {}
+  mounted () { }
 }
 </script>

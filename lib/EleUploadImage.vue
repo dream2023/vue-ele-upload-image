@@ -108,7 +108,7 @@
 
 <script>
 import Cropper from 'vue-image-crop-upload'
-import EleGallery from 'vue-ele-gallery/src/index'
+import EleGallery from 'vue-ele-gallery'
 
 export default {
   name: 'EleUploadImage',
@@ -215,7 +215,7 @@ export default {
   },
   computed: {
     // 是否显示提示
-    showTip() {
+    showTip () {
       return this.isShowTip && (this.fileType || this.fileSize)
     },
     computedValues () {
@@ -248,8 +248,8 @@ export default {
     }
   },
   methods: {
-    handleSetFileSet(fileName, fileType, fileSize) {
-      const uid = this.cropData.uid ||  new Date().getTime()
+    handleSetFileSet (fileName, fileType, fileSize) {
+      const uid = this.cropData.uid || new Date().getTime()
       this.cropData = {
         name: fileName,
         percentage: 0,
@@ -270,7 +270,7 @@ export default {
       this.cropData.status = 'success'
       this.cropData.percentage = 100
       this.cropData.response = response
-      const file = Object.assign({}, this.cropData )
+      const file = Object.assign({}, this.cropData)
       let index = this.fileList.findIndex((item) => item.uid === file.uid)
       if (index > -1) {
         this.fileList.splice(index, 1, file)
@@ -292,12 +292,12 @@ export default {
           if (fileExtension && fileExtension.indexOf(type) > -1) return true
           return false
         })
-      }  else {
+      } else {
         isImg = file.type.indexOf('image') > -1
       }
 
       if (!isImg) {
-        this.$message.error(`文件格式不正确, 请上传${this.fileType.join('/')}图片格式文件!`)
+        this.$message.error(`文件格式不正确, 请上传${(this.fileType || []).join('/')}图片格式文件!`)
         return false
       }
 
@@ -344,7 +344,7 @@ export default {
         this.$emit('input', url)
       }
     },
-    handleRemove(index) {
+    handleRemove (index) {
       if (this.multiple) {
         const data = [...this.computedValues]
         data.splice(index, 1)
