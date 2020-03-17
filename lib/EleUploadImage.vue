@@ -52,7 +52,7 @@
         v-if="showTip"
       >
         请上传
-        <b style="color: #F56C6C">{{fileType ? fileType.join('/') : '图片'}}</b>
+        <b style="color: #F56C6C">{{fileType.length ? fileType.join('/') : '图片'}}</b>
         格式文件
         <template v-if="fileSize">
           ，且大小不超过
@@ -146,7 +146,8 @@ export default {
     responseFn: Function,
     // 文件类型, 例如['png', 'jpg', 'jpeg']
     fileType: {
-      type: Array
+      type: Array,
+      default: () => []
     },
     // 缩略图后缀, 例如七牛云缩略图样式 (?imageView2/1/w/20/h/20)
     thumbSuffix: {
@@ -216,7 +217,7 @@ export default {
   computed: {
     // 是否显示提示
     showTip () {
-      return this.isShowTip && (this.fileType || this.fileSize)
+      return this.isShowTip && (this.fileType.length || this.fileSize)
     },
     computedValues () {
       if (this.value) {
@@ -282,7 +283,7 @@ export default {
     // 上传前校检格式和大小
     handleBeforeUpload (file) {
       let isImg = false
-      if (this.fileType) {
+      if (this.fileType.length) {
         let fileExtension = ''
         if (file.name.lastIndexOf('.') > -1) {
           fileExtension = file.name.slice(file.name.lastIndexOf('.') + 1)
@@ -297,7 +298,7 @@ export default {
       }
 
       if (!isImg) {
-        this.$message.error(`文件格式不正确, 请上传${(this.fileType || []).join('/')}图片格式文件!`)
+        this.$message.error(`文件格式不正确, 请上传${this.fileType.join('/')}图片格式文件!`)
         return false
       }
 
