@@ -51,7 +51,6 @@ export default {
     handleResponse (response, file, fileList) {
       return file.url
     }
-  },
-  mounted () { }
+  }
 }
 </script>
