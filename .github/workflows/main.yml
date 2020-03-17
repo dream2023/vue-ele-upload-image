@@ -7,7 +7,7 @@ on:
     paths:
       - lib/**
       - example/**
-
+      - vue.config.js
 
 jobs:
   build-deploy:
@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@master
-      
+
       - name: install
         run: yarn
 
