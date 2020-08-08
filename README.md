@@ -31,18 +31,18 @@ npm install vue-ele-upload-image --save
 
 ```js
 // 全局引入
-import EleUploadImage from 'vue-ele-upload-image'
-Vue.component(EleUploadImage.name, EleUploadImage)
+import EleUploadImage from "vue-ele-upload-image";
+Vue.component(EleUploadImage.name, EleUploadImage);
 ```
 
 ```js
 // 局部引入
-import EleUploadImage from 'vue-ele-upload-image'
+import EleUploadImage from "vue-ele-upload-image";
 export default {
   components: {
     EleUploadImage
   }
-}
+};
 ```
 
 ## 示例
@@ -60,16 +60,16 @@ export default {
   export default {
     data() {
       return {
-        image: ''
-      }
+        image: ""
+      };
     },
     methods: {
       handleResponse(response, file, fileList) {
         // 根据响应结果, 设置 URL
-        return 'https://xxx.xxx.com/image/' + response.id
+        return "https://xxx.xxx.com/image/" + response.id;
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -88,16 +88,16 @@ export default {
   export default {
     data() {
       return {
-        images: ''
-      }
+        images: ""
+      };
     },
     methods: {
       handleResponse(response, file, fileList) {
         // 根据响应结果, 设置 URL
-        return 'https://xxx.xxx.com/image/' + response.id
+        return "https://xxx.xxx.com/image/" + response.id;
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -175,6 +175,11 @@ props: {
     type: String,
     default: ''
   },
+  // 是否显示上传成功的提示
+  isShowSuccessTip: {
+    type: Boolean,
+    default: true
+  },
   // 上传地址 (同官网)
   action: {
     type: String,
@@ -189,6 +194,8 @@ props: {
     type: Boolean,
     default: false
   },
+  // 删除前的操作（同官网）
+  beforeRemove: Function
   // 	支持发送 cookie 凭证信息 (同官网)
   withCredentials: {
     type: Boolean,

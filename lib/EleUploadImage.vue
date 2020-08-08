@@ -39,31 +39,39 @@
 
         <!-- 非drag -->
         <template v-else>
-          <div :style="{ width: size + 'px', height: size + 'px', lineHeight: size + 'px' }">
+          <div
+            :style="{
+              width: size + 'px',
+              height: size + 'px',
+              lineHeight: size + 'px'
+            }"
+          >
             <i class="el-icon-plus"></i>
           </div>
         </template>
       </div>
 
       <!-- 公共 -->
-      <div
-        class="el-upload__tip"
-        slot="tip"
-        v-if="showTip"
-      >
+      <div class="el-upload__tip" slot="tip" v-if="showTip">
         请上传
-        <b style="color: #F56C6C">{{fileType.length ? fileType.join('/') : '图片'}}</b>
+        <b style="color: #F56C6C">{{
+          fileType.length ? fileType.join("/") : "图片"
+        }}</b>
         格式文件
         <template v-if="fileSize">
           ，且大小不超过
-          <b style="color: #F56C6C">{{fileSize}}MB</b>
+          <b style="color: #F56C6C">{{ fileSize }}MB</b>
         </template>
       </div>
     </el-upload>
 
     <div v-if="crop">
       <div
-        :style="{ width: size + 'px', height: size + 'px', lineHeight: size + 'px' }"
+        :style="{
+          width: size + 'px',
+          height: size + 'px',
+          lineHeight: size + 'px'
+        }"
         @click="isShowCrop = true"
         class="el-upload el-upload--picture-card"
         style="margin-bottom: 20px;"
@@ -107,17 +115,17 @@
 </template>
 
 <script>
-import Cropper from 'vue-image-crop-upload'
-import EleGallery from 'vue-ele-gallery'
+import Cropper from "vue-image-crop-upload";
+import EleGallery from "vue-ele-gallery";
 
 export default {
-  name: 'EleUploadImage',
+  name: "EleUploadImage",
   props: {
     // 值
     value: {
       type: [String, Array],
-      default () {
-        return []
+      default() {
+        return [];
       }
     },
     // 是否剪裁
@@ -149,10 +157,15 @@ export default {
       type: Array,
       default: () => []
     },
+    // 是否显示上传成功的提示
+    isShowSuccessTip: {
+      type: Boolean,
+      default: true
+    },
     // 缩略图后缀, 例如七牛云缩略图样式 (?imageView2/1/w/20/h/20)
     thumbSuffix: {
       type: String,
-      default: ''
+      default: ""
     },
     // 是否显示提示
     isShowTip: {
@@ -195,173 +208,200 @@ export default {
     // 上传的文件字段名 (同官网)
     name: {
       type: String,
-      default: 'file'
+      default: "file"
     },
     // 覆盖默认的上传行为，可以自定义上传的实现 (同官网)
     httpRequest: Function,
     // 接受上传的文件类型（thumbnail-mode 模式下此参数无效）(同官网)
-    accept: String
+    accept: String,
+    // 删除前的操作
+    beforeRemove: Function
   },
   components: {
     Cropper,
     EleGallery
   },
-  data () {
+  data() {
     return {
       cropData: {},
       isShowCrop: false,
       uploading: false,
       fileList: []
-    }
+    };
   },
   computed: {
     // 是否显示提示
-    showTip () {
-      return this.isShowTip && (this.fileType.length || this.fileSize)
+    showTip() {
+      return this.isShowTip && (this.fileType.length || this.fileSize);
     },
-    computedValues () {
+    computedValues() {
       if (this.value) {
-        if (typeof this.value === 'string') {
-          return [this.value]
+        if (typeof this.value === "string") {
+          return [this.value];
         } else {
-          return [...this.value]
+          return [...this.value];
         }
       } else {
-        return []
+        return [];
       }
     },
-    isShowUpload () {
+    isShowUpload() {
       if (this.multiple) {
-        return true
+        return true;
       } else {
-        return this.computedValues.length === 0
+        return this.computedValues.length === 0;
       }
     },
-    successFiles () {
-      return this.fileList.filter((file) => file.status === 'success')
+    successFiles() {
+      return this.fileList.filter(file => file.status === "success");
     }
   },
   watch: {
-    isShowCrop (value) {
+    isShowCrop(value) {
       if (value === false) {
-        this.cropData = {}
+        this.cropData = {};
       }
     }
   },
   methods: {
-    handleSetFileSet (fileName, fileType, fileSize) {
-      const uid = this.cropData.uid || new Date().getTime()
+    handleSetFileSet(fileName, fileType, fileSize) {
+      const uid = this.cropData.uid || new Date().getTime();
       this.cropData = {
         name: fileName,
         percentage: 0,
         size: fileSize,
         type: fileType,
-        status: 'ready',
+        status: "ready",
         uid: uid
-      }
+      };
     },
-    handleCropSuccess (b64Data) {
-      this.cropData.url = b64Data
+    handleCropSuccess(b64Data) {
+      this.cropData.url = b64Data;
     },
-    handleCropUploadError (status) {
-      this.$message.error('上传失败, 请重试')
-      this.$emit('error', status)
+    handleCropUploadError(status) {
+      this.$message.error("上传失败, 请重试");
+      this.$emit("error", status);
     },
-    handleCropUploadSuccess (response) {
-      this.cropData.status = 'success'
-      this.cropData.percentage = 100
-      this.cropData.response = response
-      const file = Object.assign({}, this.cropData)
-      let index = this.fileList.findIndex((item) => item.uid === file.uid)
+    handleCropUploadSuccess(response) {
+      this.cropData.status = "success";
+      this.cropData.percentage = 100;
+      this.cropData.response = response;
+      const file = Object.assign({}, this.cropData);
+      let index = this.fileList.findIndex(item => item.uid === file.uid);
       if (index > -1) {
-        this.fileList.splice(index, 1, file)
+        this.fileList.splice(index, 1, file);
       } else {
-        this.fileList.push(file)
+        this.fileList.push(file);
       }
-      this.handleUploadSuccess(response, file, this.fileList)
+      this.handleUploadSuccess(response, file, this.fileList);
     },
     // 上传前校检格式和大小
-    handleBeforeUpload (file) {
-      let isImg = false
+    handleBeforeUpload(file) {
+      let isImg = false;
       if (this.fileType.length) {
-        let fileExtension = ''
-        if (file.name.lastIndexOf('.') > -1) {
-          fileExtension = file.name.slice(file.name.lastIndexOf('.') + 1)
+        let fileExtension = "";
+        if (file.name.lastIndexOf(".") > -1) {
+          fileExtension = file.name.slice(file.name.lastIndexOf(".") + 1);
         }
-        isImg = this.fileType.some((type) => {
-          if (file.type.indexOf(type) > -1) return true
-          if (fileExtension && fileExtension.indexOf(type) > -1) return true
-          return false
-        })
+        isImg = this.fileType.some(type => {
+          if (file.type.indexOf(type) > -1) return true;
+          if (fileExtension && fileExtension.indexOf(type) > -1) return true;
+          return false;
+        });
       } else {
-        isImg = file.type.indexOf('image') > -1
+        isImg = file.type.indexOf("image") > -1;
       }
 
       if (!isImg) {
-        this.$message.error(`文件格式不正确, 请上传${this.fileType.join('/')}图片格式文件!`)
-        return false
+        this.$message.error(
+          `文件格式不正确, 请上传${this.fileType.join("/")}图片格式文件!`
+        );
+        return false;
       }
 
       if (this.fileSize) {
-        const isLt = file.size / 1024 / 1024 < this.fileSize
+        const isLt = file.size / 1024 / 1024 < this.fileSize;
         if (!isLt) {
-          this.$message.error(`上传头像图片大小不能超过 ${this.fileSize} MB!`)
-          return false
+          this.$message.error(`上传头像图片大小不能超过 ${this.fileSize} MB!`);
+          return false;
         }
       }
 
-      this.uploading = true
-      return true
+      this.uploading = true;
+      return true;
     },
-    handleChange (file, fileList) {
-      this.uploading = false
-      this.fileList = fileList
+    handleChange(file, fileList) {
+      this.uploading = false;
+      this.fileList = fileList;
     },
     // 文件个数超出
-    handleExceed () {
-      this.$message.error(`最多上传${this.limit}张图片`)
+    handleExceed() {
+      this.$message.error(`最多上传${this.limit}张图片`);
     },
     // 上传失败
-    handleUploadError (err) {
-      this.uploading = false
-      this.$message.error('上传失败, 请重试')
-      this.$emit('error', err)
+    handleUploadError(err) {
+      this.uploading = false;
+      this.$message.error("上传失败, 请重试");
+      this.$emit("error", err);
     },
     // 上传成功回调
-    handleUploadSuccess (response, file) {
-      let url = response
-      this.uploading = false
-      this.$message.success('上传成功')
+    handleUploadSuccess(response, file) {
+      let url = response;
+      this.uploading = false;
+      if (this.isShowSuccessTip) {
+        this.$message.success("上传成功");
+      }
       if (this.responseFn) {
-        url = this.responseFn(response, file, this.successFiles)
+        url = this.responseFn(response, file, this.successFiles);
       }
       if (this.multiple) {
         if (Array.isArray(this.value)) {
-          this.$emit('input', [...this.value, url])
+          this.$emit("input", [...this.value, url]);
         } else {
-          this.$emit('input', [url])
+          this.$emit("input", [url]);
         }
       } else {
-        this.$emit('input', url)
+        this.$emit("input", url);
       }
     },
-    handleRemove (index) {
+    doRemove() {
       if (this.multiple) {
-        const data = [...this.computedValues]
-        data.splice(index, 1)
-        this.$emit('input', data || [])
+        const data = [...this.computedValues];
+        data.splice(index, 1);
+        this.$emit("input", data || []);
       } else {
-        this.$emit('input', null)
+        this.$emit("input", null);
+      }
+    },
+    handleRemove(index) {
+      if (!this.beforeRemove) {
+        this.doRemove();
+      } else if (typeof this.beforeRemove === "function") {
+        const file = this.multiple
+          ? this.computedValues[index]
+          : this.computedValues;
+
+        const before = this.beforeRemove(file, this.computedValues);
+        if (before && before.then) {
+          before.then(
+            () => {
+              this.doRemove();
+            },
+            () => {}
+          );
+        } else if (before !== false) {
+          this.doRemove();
+        }
       }
     }
   },
-  mounted () {
+  mounted() {
     // 插入到body中, 避免弹出层被遮盖
     if (this.crop && this.$refs.cropper) {
-      document.body.appendChild(this.$refs.cropper.$el)
+      document.body.appendChild(this.$refs.cropper.$el);
     }
   }
-}
+};
 </script>
 
 <style>
