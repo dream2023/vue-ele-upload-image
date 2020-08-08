@@ -364,7 +364,7 @@ export default {
         this.$emit("input", url);
       }
     },
-    doRemove() {
+    doRemove(index) {
       if (this.multiple) {
         const data = [...this.computedValues];
         data.splice(index, 1);
@@ -375,7 +375,7 @@ export default {
     },
     handleRemove(index) {
       if (!this.beforeRemove) {
-        this.doRemove();
+        this.doRemove(index);
       } else if (typeof this.beforeRemove === "function") {
         const file = this.multiple
           ? this.computedValues[index]
@@ -385,12 +385,12 @@ export default {
         if (before && before.then) {
           before.then(
             () => {
-              this.doRemove();
+              this.doRemove(index);
             },
             () => {}
           );
         } else if (before !== false) {
-          this.doRemove();
+          this.doRemove(index);
         }
       }
     }
