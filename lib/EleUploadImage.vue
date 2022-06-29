@@ -20,7 +20,7 @@
       :on-success="handleUploadSuccess"
       :show-file-list="false"
       :style="{
-        marginBottom: multiple && computedValues.length ? '20px' : '0px'
+        marginBottom: multiple && computedValues.length ? '20px' : '0px',
       }"
       :withCredentials="withCredentials"
       ref="upload"
@@ -43,7 +43,7 @@
             :style="{
               width: size + 'px',
               height: size + 'px',
-              lineHeight: size + 'px'
+              lineHeight: size + 'px',
             }"
           >
             <i class="el-icon-plus"></i>
@@ -70,7 +70,7 @@
         :style="{
           width: size + 'px',
           height: size + 'px',
-          lineHeight: size + 'px'
+          lineHeight: size + 'px',
         }"
         @click="isShowCrop = true"
         class="el-upload el-upload--picture-card"
@@ -115,7 +115,7 @@
 </template>
 
 <script>
-import Cropper from "vue-image-crop-upload";
+import Cropper from "vue-image-crop-upload/upload-2.vue";
 import EleGallery from "vue-ele-gallery";
 
 export default {
@@ -126,63 +126,63 @@ export default {
       type: [String, Array],
       default() {
         return [];
-      }
+      },
     },
     // 是否剪裁
     crop: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // 图片显示大小
     size: {
       type: Number,
-      default: 150
+      default: 150,
     },
     // 裁剪高度
     cropHeight: {
-      type: Number
+      type: Number,
     },
     // 裁剪宽度
     cropWidth: {
-      type: Number
+      type: Number,
     },
     // 大小限制(MB)
     fileSize: {
-      type: Number
+      type: Number,
     },
     // 响应处理函数
     responseFn: Function,
     // 文件类型, 例如['png', 'jpg', 'jpeg']
     fileType: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     // 是否显示上传成功的提示
     isShowSuccessTip: {
       type: Boolean,
-      default: true
+      default: true,
     },
     // 缩略图后缀, 例如七牛云缩略图样式 (?imageView2/1/w/20/h/20)
     thumbSuffix: {
       type: String,
-      default: ""
+      default: "",
     },
     // 是否显示提示
     isShowTip: {
       type: Boolean,
-      default: true
+      default: true,
     },
     // 弹窗标题
     title: String,
     // 图片懒加载
     lazy: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // 上传地址 (同官网)
     action: {
       type: String,
-      required: true
+      required: true,
     },
     // 设置上传的请求头部(同官网)
     headers: Object,
@@ -191,42 +191,42 @@ export default {
     // 是否启用拖拽上传 (同官网)
     drag: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // 	支持发送 cookie 凭证信息 (同官网)
     withCredentials: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // 是否支持多选文件 (同官网)
     multiple: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // 上传时附带的额外参数(同官网)
     data: Object,
     // 上传的文件字段名 (同官网)
     name: {
       type: String,
-      default: "file"
+      default: "file",
     },
     // 覆盖默认的上传行为，可以自定义上传的实现 (同官网)
     httpRequest: Function,
     // 接受上传的文件类型（thumbnail-mode 模式下此参数无效）(同官网)
     accept: String,
     // 删除前的操作
-    beforeRemove: Function
+    beforeRemove: Function,
   },
   components: {
     Cropper,
-    EleGallery
+    EleGallery,
   },
   data() {
     return {
       cropData: {},
       isShowCrop: false,
       uploading: false,
-      fileList: []
+      fileList: [],
     };
   },
   computed: {
@@ -253,15 +253,15 @@ export default {
       }
     },
     successFiles() {
-      return this.fileList.filter(file => file.status === "success");
-    }
+      return this.fileList.filter((file) => file.status === "success");
+    },
   },
   watch: {
     isShowCrop(value) {
       if (value === false) {
         this.cropData = {};
       }
-    }
+    },
   },
   methods: {
     handleSetFileSet(fileName, fileType, fileSize) {
@@ -272,7 +272,7 @@ export default {
         size: fileSize,
         type: fileType,
         status: "ready",
-        uid: uid
+        uid: uid,
       };
     },
     handleCropSuccess(b64Data) {
@@ -287,7 +287,7 @@ export default {
       this.cropData.percentage = 100;
       this.cropData.response = response;
       const file = Object.assign({}, this.cropData);
-      let index = this.fileList.findIndex(item => item.uid === file.uid);
+      let index = this.fileList.findIndex((item) => item.uid === file.uid);
       if (index > -1) {
         this.fileList.splice(index, 1, file);
       } else {
@@ -303,7 +303,7 @@ export default {
         if (file.name.lastIndexOf(".") > -1) {
           fileExtension = file.name.slice(file.name.lastIndexOf(".") + 1);
         }
-        isImg = this.fileType.some(type => {
+        isImg = this.fileType.some((type) => {
           if (file.type.indexOf(type) > -1) return true;
           if (fileExtension && fileExtension.indexOf(type) > -1) return true;
           return false;
@@ -393,14 +393,14 @@ export default {
           this.doRemove(index);
         }
       }
-    }
+    },
   },
   mounted() {
     // 插入到body中, 避免弹出层被遮盖
     if (this.crop && this.$refs.cropper) {
       document.body.appendChild(this.$refs.cropper.$el);
     }
-  }
+  },
 };
 </script>
 
