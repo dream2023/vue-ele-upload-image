@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.8.0",
-    "@vue/cli-service": "^3.8.0",
+    "@vue/cli-service": "^5.0.8",
     "core-js": "^2.6.5",
     "element-ui": "^2.9.1",
     "vue": "^2.6.10",
